@@ -27,6 +27,7 @@ def function_x(St):
         ans[i] = val
     return ans
 
+
 sortS =  sorted(S, key=function_x)
 for i in range(n):
     print(sortS[i])
