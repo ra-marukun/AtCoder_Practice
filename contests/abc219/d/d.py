@@ -30,7 +30,7 @@ dp[0][0][0] = 0
 for i in range(n):
     for j in range(x+1):
         for k in range(y+1):
-            dp[i+1][min(j+A[i],x)][min(k+B[i],y)] = min(dp[i][j][k]+1, dp[i][min(j+A[i],x)][min(k+B[i],y)])
+            dp[i+1][min(j+A[i],x)][min(k+B[i],y)] = min(dp[i][j][k]+1, dp[i+1][min(j+A[i],x)][min(k+B[i],y)])
             dp[i+1][j][k] = min(dp[i+1][j][k],dp[i][j][k])
 
 ans = dp[n][x][y]
