@@ -13,8 +13,6 @@ _INPUT = """\
 sys.stdin = io.StringIO(_INPUT)
 
 ##ここ以降にコーディング
-import numpy as np
-
 n = int(input())
 x,y = map(int, input().split())
 ab = [map(int, input().split()) for _ in range(n)]
@@ -27,21 +25,15 @@ if (x>A_sum)|(y>B_sum):
     print(-1)
     exit()
 
-dp = np.array([[[float('inf')]*(B_sum+1) for _ in range(A_sum+1)]for _ in range(n+1)])
+dp = [[[float('inf')]*(y+1) for _ in range(x+1)]for _ in range(n+1)]
 dp[0][0][0] = 0
 for i in range(n):
-    for j in range(A_sum+1):
-        for k in range(B_sum+1):
-            pre = dp[i][j][k]
-            if (j<A[i])|(k<B[i]):
-                dp[i+1][j][k] = pre
-            elif (j==A[i])&(k==B[i]):
-                dp[i+1][j][k] = 1
-            else:
-                dp[i+1][j][k] = min(dp[i][j-A[i]][k-B[i]]+1, pre)
+    for j in range(x+1):
+        for k in range(y+1):
+            dp[i+1][min(j+A[i],x)][min(k+B[i],y)] = min(dp[i][j][k]+1, dp[i][min(j+A[i],x)][min(k+B[i],y)])
+            dp[i+1][j][k] = min(dp[i+1][j][k],dp[i][j][k])
 
-kotae = dp[n,x:,y:]
-ans = np.min(kotae)
+ans = dp[n][x][y]
 if ans > 1000:
     print(-1)
 else:
